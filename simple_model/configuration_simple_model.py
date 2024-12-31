@@ -5,14 +5,6 @@ from optimum.exporters.onnx.config import VisionOnnxConfig
 from optimum.utils import NormalizedVisionConfig, DummyVisionInputGenerator
 from transformers import PretrainedConfig
 
-DummyVisionInputGenerator.SUPPORTED_INPUT_NAMES = (
-    "pixel_values",
-    "pixel_mask",
-    "sample",
-    "latent_sample",
-    "image",
-)
-
 
 class SimpleModelConfig(PretrainedConfig):
     """Transformers configuration for Simple Model."""
@@ -34,7 +26,7 @@ class SimpleModelOnnxConfig(VisionOnnxConfig):
     @property
     def inputs(self) -> Dict[str, Dict[int, str]]:
         return {
-            "image": {
+            "pixel_values": {
                 0: "batch_size",
                 1: "num_channels",
                 2: "height",

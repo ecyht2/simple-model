@@ -3,7 +3,7 @@ import torch
 from PIL.Image import Image
 from torch import Tensor
 from torchvision.transforms import v2 as transforms
-from transformers import BaseImageProcessor, BatchFeature
+from transformers.image_processing_utils import BaseImageProcessor, BatchFeature
 
 
 class SimpleModelProcessor(BaseImageProcessor):
@@ -24,7 +24,7 @@ class SimpleModelProcessor(BaseImageProcessor):
             0.3081
         ]
     
-    def preprocess(self, image: Image | list[Image], **kwargs) -> Tensor:
+    def preprocess(self, image: Image | list[Image], **kwargs) -> BatchFeature:
         """Preprocess the image."""
         if isinstance(image, list):
             image = list(map(lambda img: img.convert("L"), image))
@@ -42,4 +42,4 @@ class SimpleModelProcessor(BaseImageProcessor):
             image_tensor = torch.stack(image_tensor, dim=0)
         else:
             image_tensor = image_tensor.unsqueeze(0)
-        return BatchFeature(data={"image": image_tensor}, tensor_type="pt")
+        return BatchFeature(data={"pixel_values": image_tensor}, tensor_type="pt")

@@ -27,5 +27,5 @@ class SimpleModel(PreTrainedModel):
         super().__init__(config)
         self.model = Model()
         
-    def forward(self, image: Tensor, **kwargs) -> Tensor:
-        return ImageClassifierOutput(logits=self.model(image))
+    def forward(self, pixel_values: Tensor, **kwargs) -> Tensor:
+        return ImageClassifierOutput(logits=self.model(pixel_values))
